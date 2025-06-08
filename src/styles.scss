@@ -1,1 +1,113 @@
-/* You can add global styles to this file, and also import other style files */
+@import 'app/shared/styles/_variables.scss';
+@import 'app/shared/styles/_colors.scss';
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+// Text and Typography
+
+h1, .page-title {
+    font-size: 2rem;
+}
+
+h2, .section-title {
+    font-size: 1.5rem;
+}
+
+h3, .subtitle {
+    font-size: 1.25rem;
+}
+
+h1, h2, h3, .page-title, .section-title, .subtitle {
+    font-family: 'Poppins', sans-serif;
+    color: $black-color-500;
+    font-weight: 700;
+}
+
+label {
+    font-size: .75rem;
+    font-weight: 500;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+label, p {
+    font-family: 'Inter', sans-serif;
+    color: $black-color-500;
+    font-weight: 400;
+}
+
+// Buttons and Inputs
+
+button {
+
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.special-button {
+
+}
+
+.primary-button {
+
+}
+
+.secondary-button {
+
+}
+
+.tertiary-button {
+
+}
+
+input {
+
+}
+
+textarea {
+
+}
+
+.search-input {
+
+}
+
+.default-input {
+
+}
+
+// Cards and Containers
+
+.card-container {
+
+}
+
+.split-input-container {
+
+}
+
+.inline-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.material-symbols-outlined {
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
