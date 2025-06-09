@@ -1,5 +1,5 @@
-@import 'app/shared/styles/_variables.scss';
-@import 'app/shared/styles/_colors.scss';
+@use 'app/shared/styles/variables' as *;
+@use 'app/shared/styles/colors' as *;
 
 html {
     scroll-behavior: smooth;
@@ -12,44 +12,73 @@ body {
 
 // Text and Typography
 
-h1, .page-title {
+h1,
+.page-title {
     font-size: 2rem;
-}
-
-h2, .section-title {
-    font-size: 1.5rem;
-}
-
-h3, .subtitle {
-    font-size: 1.25rem;
-}
-
-h1, h2, h3, .page-title, .section-title, .subtitle {
-    font-family: 'Poppins', sans-serif;
-    color: $black-color-500;
     font-weight: 700;
 }
 
-label {
+h2,
+.section-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+h3,
+.subtitle {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+h1,
+h2,
+h3,
+.page-title,
+.section-title,
+.subtitle {
+    font-family: 'Poppins', sans-serif;
+    color: inherit;
+    margin: 0;
+}
+
+label, .label-text {
     font-size: .75rem;
     font-weight: 500;
 }
 
-p {
+p .p-text {
     font-size: 1rem;
     line-height: 1.5;
 }
 
-label, p {
+label,
+p,
+.label-text,
+.p-text {
     font-family: 'Inter', sans-serif;
-    color: $black-color-500;
+    color: inherit;
     font-weight: 400;
+    margin: 0;
 }
 
 // Buttons and Inputs
 
 button {
+    padding: unset;
+    margin: unset;
+    border: unset;
+    outline: unset;
+    background: unset;
 
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+
+
+    cursor: pointer;
+    border-radius: 100rem;
+    will-change: transform;
 }
 
 a {
@@ -57,47 +86,92 @@ a {
     color: inherit;
 }
 
-.special-button {
-
-}
+.special-button {}
 
 .primary-button {
+    @extend p;
+    font-weight: 700;
+    color: $white-color-500;
 
+    padding: .5rem 1rem;
+    background-color: $primary-color-500;
+
+    transition: background-color 0.3s ease-in-out,
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        transform: scale(1.05);
+        background-color: $primary-color-600;
+    }
+
+    &:active {
+        transform: scale(0.95);
+        background-color: $primary-color-700;
+    }
 }
 
 .secondary-button {
+    @extend p;
+    font-weight: 700;
+    color: $black-color-500;
 
+    padding: .5rem 1rem;
+
+    transition: background-color 0.3s ease-in-out,
+        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+        transform: scale(1.05);
+        background-color: rgba($black-color-500, 0.1);
+    }
+
+    &:active {
+        transform: scale(0.95);
+        background-color: rgba($black-color-500, 0.2);
+    }
 }
 
 .tertiary-button {
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
+    &:hover {
+        transform: scale(1.1);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
 }
 
 input {
-
+    background-color: unset;
+    outline: unset;
+    border: unset;
+    margin: unset;
+    padding: unset;
 }
 
-textarea {
+textarea {}
 
-}
-
-.search-input {
-
-}
+.search-input {}
 
 .default-input {
+    @extend p;
+    padding: .5rem .75rem;
+    border: solid 1px $black-color-500;
+    color: $black-color-500;
+    border-radius: .5rem;
 
+    &::placeholder {
+        color: $black-color-100;
+    }
 }
 
 // Cards and Containers
 
-.card-container {
+.card-container {}
 
-}
-
-.split-input-container {
-
-}
+.split-input-container {}
 
 .inline-icon {
     display: inline-flex;
