@@ -29,3 +29,31 @@ $error-color-400: #f6685e;
 $error-color-300: #f88a8a;
 $error-color-200: #fbbbc0;
 $error-color-100: #fdd4d8;
+
+// Text and Background Colors
+$text-light-primary: $black-color-500;
+$text-light-subtle: $black-color-400;
+$text-light-muted: $black-color-300;
+$text-light-placeholder: $black-color-200;
+
+$bg-light: $white-color-500;
+$bg-light-secondary: $white-color-600;
+$bg-light-tertiary: $white-color-700;
+
+$text-dark-primary: $white-color-500;
+$text-dark-subtle: $white-color-600;
+$text-dark-muted: $white-color-700;
+$text-dark-placeholder: $white-color-800;
+
+$bg-dark: $black-color-500;
+$bg-dark-secondary: $black-color-400;
+$bg-dark-tertiary: $black-color-300;
+
+$text-primary: var(--text-color, $text-light-primary);
+$text-subtle: var(--text-color-secondary, $text-light-subtle);
+$text-muted: var(--text-color-tertiary, $text-light-muted);
+$placeholder: var(--text-placeholder, $text-light-placeholder);
+
+$background: var(--background-color, $bg-light);
+$background-secondary: var(--background-secondary, $bg-light-secondary);
+$background-tertiary: var(--background-tertiary, $bg-light-tertiary);

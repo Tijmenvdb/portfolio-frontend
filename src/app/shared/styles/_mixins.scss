@@ -1,0 +1,65 @@
+@use 'colors' as *;
+@use 'variables' as *;
+
+
+// --------------- Text and Typography ---------------
+
+@mixin header-text($font-size, $font-weight) {
+    font-size: $font-size;
+    font-weight: $font-weight;
+    font-family: $header-font;
+    color: inherit;
+    margin: 0;
+    line-height: 1;
+}
+
+@mixin body-text($font-size, $font-weight) {
+    font-size: $font-size;
+    font-weight: $font-weight;
+    font-family: $body-font;
+    color: inherit;
+    margin: 0;
+    line-height: 1.5;
+}
+
+// --------------- Buttons and Inputs ---------------
+
+@mixin background-color-click($hover-color, $active-color) {
+    &:hover {
+        background-color: $hover-color;
+    }
+
+    &:active {
+        background-color: $active-color;
+    }
+}
+
+@mixin scale-click($scale-factor: 1.05, $shrink-factor: 0.95) {
+    &:hover {
+        transform: scale($scale-factor);
+    }
+
+    &:active {
+        transform: scale($shrink-factor);
+    }
+}
+
+@mixin color-click($hover-color, $active-color) {
+    &:hover {
+        color: $hover-color;
+    }
+
+    &:active {
+        color: $active-color;
+    }
+}
+
+// --------------- Cards and Containers ---------------
+
+@mixin card($border-radius, $padding) {
+    background-color: $white-color-500;
+    box-shadow: $conatiner-shadow;
+    color: $black-color-500;
+    border-radius: $border-radius;
+    padding: $padding;
+}

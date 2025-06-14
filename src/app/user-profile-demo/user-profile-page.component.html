@@ -1,4 +1,4 @@
-<nav>
+<nav class="nav-bar">
     <a routerLink="/portfolio" class="section-title inline-icon" aria-label="Go Back">
         <span class="material-symbols-outlined">
             arrow_back_ios_new
@@ -25,8 +25,8 @@
 </nav>
 
 <div class="user-profile-page">
-    <main class="card-lg">
-        <header class="inline-icon">
+    <main class="user-profile-container">
+        <header class="flex-container">
             <h1>User Profile</h1>
             <button class="primary-button inline-icon">
                 <span>
@@ -38,8 +38,8 @@
             </button>
         </header>
     </main>
-    <aside>
-        <h1 class="flex-container flex-space-between">
+    <aside class="comments-drawer">
+        <h1 class="drawer-header flex-container flex-space-between">
             <span>
                 Comments
             </span>
@@ -47,51 +47,171 @@
                 close
             </button>
         </h1>
-
-        <h3 class="flex-container flex-space-between">
-            <span>
-                Profile Info
-            </span>
-            <button class="material-symbols-outlined tertiary-button">
-                add_circle
-            </button>
-        </h3>
-
-        <div class="card-sm focus comment-container">
-            <input type="text" placeholder="Add a comment..." class="default-input">
-            <div class="flex-container flex-end">
-                <button class="secondary-button">
-                    Cancel
+        <div class="comment-section">
+            <h3 class="section-header flex-container flex-space-between">
+                <span>
+                    Profile Info
+                </span>
+                <button class="tertiary-button material-symbols-outlined">
+                    add_circle
                 </button>
-                <button class="secondary-button">
-                    Send
-                </button>
+            </h3>
+            <div class="comment-card-list">
+                <div class="comment-card focus">
+                    <div class="comment">
+                        <input type="text" placeholder="Add a comment..." class="text-input">
+                        <div class="flex-container flex-end">
+                            <button class="secondary-button">
+                                Cancel
+                            </button>
+                            <button class="secondary-button">
+                                Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="comment-card">
+                    <div class="comment">
+                        <div class="flex-container">
+                            <span class="secondary-text font-weight-semibold">Username</span>
+                            <span class="secondary-text font-weight-normal">1 hour ago</span>
+                        </div>
+                        <p>This is the comment.</p>
+                        <div class="flex-container">
+                            <button class="secondary-button inline-icon">
+                                <span class="material-symbols-outlined">
+                                    reply
+                                </span>
+                                <span>
+                                    Reply
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <input type="text" placeholder="Reply to comment..." class="text-input">
+                        <div class="flex-container flex-end">
+                            <button class="secondary-button">
+                                Cancel
+                            </button>
+                            <button class="secondary-button">
+                                Reply
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <div class="card-sm comment-container">
-            <div class="flex-container">
-                <span class="label-text">Username</span>
-                <span class="label-text">1 hour ago</span>
-            </div>
-            <p>This is the comment.</p>
-            <button class="secondary-button inline-icon">
-                <span class="material-symbols-outlined">
-                    reply
-                </span>
+        <div class="comment-section">
+            <h3 class="section-header flex-container flex-space-between">
                 <span>
-                    Reply
+                    Profile Info
                 </span>
-            </button>
-            <div class="comment-container">
-                <input type="text" placeholder="Reply to comment..." class="default-input">
-                <div class="flex-container flex-end">
-                    <button class="secondary-button">
-                        Cancel
-                    </button>
-                    <button class="secondary-button">
-                        Reply
-                    </button>
+                <button class="tertiary-button material-symbols-outlined">
+                    add_circle
+                </button>
+            </h3>
+            <div class="comment-card-list">
+                <div class="comment-card focus">
+                    <div class="comment">
+                        <input type="text" placeholder="Add a comment..." class="text-input">
+                        <div class="flex-container flex-end">
+                            <button class="secondary-button">
+                                Cancel
+                            </button>
+                            <button class="secondary-button">
+                                Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="comment-card">
+                    <div class="comment">
+                        <div class="flex-container">
+                            <span class="secondary-text font-weight-semibold">Username</span>
+                            <span class="secondary-text font-weight-normal">1 hour ago</span>
+                        </div>
+                        <p>This is the comment.</p>
+                        <div class="flex-container">
+                            <button class="secondary-button inline-icon">
+                                <span class="material-symbols-outlined">
+                                    reply
+                                </span>
+                                <span>
+                                    Reply
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <input type="text" placeholder="Reply to comment..." class="text-input">
+                        <div class="flex-container flex-end">
+                            <button class="secondary-button">
+                                Cancel
+                            </button>
+                            <button class="secondary-button">
+                                Reply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="comment-section">
+            <h3 class="section-header flex-container flex-space-between">
+                <span>
+                    Profile Info
+                </span>
+                <button class="tertiary-button material-symbols-outlined">
+                    add_circle
+                </button>
+            </h3>
+            <div class="comment-card-list">
+                <div class="comment-card focus">
+                    <div class="comment">
+                        <input type="text" placeholder="Add a comment..." class="text-input">
+                        <div class="flex-container flex-end">
+                            <button class="secondary-button">
+                                Cancel
+                            </button>
+                            <button class="secondary-button">
+                                Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="comment-card">
+                    <div class="comment">
+                        <div class="flex-container">
+                            <span class="secondary-text font-weight-semibold">Username</span>
+                            <span class="secondary-text font-weight-normal">1 hour ago</span>
+                        </div>
+                        <p>This is the comment.</p>
+                        <div class="flex-container">
+                            <button class="secondary-button inline-icon">
+                                <span class="material-symbols-outlined">
+                                    reply
+                                </span>
+                                <span>
+                                    Reply
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="comment">
+                        <input type="text" placeholder="Reply to comment..." class="text-input">
+                        <div class="flex-container flex-end">
+                            <button class="secondary-button">
+                                Cancel
+                            </button>
+                            <button class="secondary-button">
+                                Reply
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

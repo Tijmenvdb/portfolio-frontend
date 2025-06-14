@@ -1,8 +1,10 @@
 @use 'app/shared/styles/variables' as *;
 @use 'app/shared/styles/colors' as *;
+@use 'app/shared/styles/mixins' as *;
 
 html {
     scroll-behavior: smooth;
+    background-color: $white-color-600;
 }
 
 body {
@@ -10,58 +12,83 @@ body {
     padding: 0;
 }
 
-// Text and Typography
+.material-symbols-outlined {
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
 
+// --------------- Text and Typography ---------------
 h1,
 .page-title {
-    font-size: 2rem;
-    font-weight: 700;
+    @include header-text($font-size-xxl, $font-weight-bold);
 }
 
 h2,
 .section-title {
-    font-size: 1.5rem;
-    font-weight: 600;
+    @include header-text($font-size-xl, $font-weight-semibold);
 }
 
 h3,
-.subtitle {
-    font-size: 1.25rem;
-    font-weight: 600;
+.subsection-title {
+    @include header-text($font-size-lg, $font-weight-semibold);
 }
 
-h1,
-h2,
-h3,
-.page-title,
-.section-title,
-.subtitle {
-    font-family: 'Poppins', sans-serif;
-    color: inherit;
-    margin: 0;
+
+p, .body-text{
+    @include body-text($font-size-md, $font-weight-normal);
 }
 
-label, .label-text {
-    font-size: .75rem;
-    font-weight: 500;
+label, .secondary-text {
+    @include body-text($font-size-sm, $font-weight-normal);
 }
 
-p .p-text {
-    font-size: 1rem;
-    line-height: 1.5;
+// --------------- Text Modifiers ---------------
+
+// Font Weights
+.font-weight-light {
+    font-weight: $font-weight-light;
 }
 
-label,
-p,
-.label-text,
-.p-text {
-    font-family: 'Inter', sans-serif;
-    color: inherit;
-    font-weight: 400;
-    margin: 0;
+.font-weight-normal {
+    font-weight: $font-weight-normal;
 }
 
-// Buttons and Inputs
+.font-weight-medium {
+    font-weight: $font-weight-medium;
+}
+
+.font-weight-semibold {
+    font-weight: $font-weight-semibold;
+}
+
+.font-weight-bold {
+    font-weight: $font-weight-bold;
+}
+
+// Font Sizes
+.font-size-xs {
+    font-size: $font-size-xs;
+}
+
+.font-size-sm {
+    font-size: $font-size-sm;
+}
+
+.font-size-md {
+    font-size: $font-size-md;
+}
+
+.font-size-lg {
+    font-size: $font-size-lg;
+}
+
+.font-size-xl {
+    font-size: $font-size-xl;
+}
+
+// --------------- Buttons and Inputs ---------------
 
 button {
     padding: unset;
@@ -75,7 +102,6 @@ button {
     font-size: inherit;
     font-weight: inherit;
 
-
     cursor: pointer;
     border-radius: 100rem;
     will-change: transform;
@@ -86,61 +112,40 @@ a {
     color: inherit;
 }
 
-.special-button {}
+.special-button {
+    // placeholder for special button styles
+}
 
 .primary-button {
-    @extend p;
-    font-weight: 700;
+    @include body-text($font-size-md, $font-weight-bold);
     color: $white-color-500;
 
     padding: .5rem 1rem;
     background-color: $primary-color-500;
 
-    transition: background-color 0.3s ease-in-out,
-        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: $background-color-transition,
+        $scale-transition;
 
-    &:hover {
-        transform: scale(1.05);
-        background-color: $primary-color-600;
-    }
-
-    &:active {
-        transform: scale(0.95);
-        background-color: $primary-color-700;
-    }
+    @include background-color-click($primary-color-600, $primary-color-700);
+    @include scale-click();
 }
 
 .secondary-button {
-    @extend p;
-    font-weight: 700;
+    @include body-text($font-size-md, $font-weight-bold);
     color: $black-color-500;
 
     padding: .5rem 1rem;
 
-    transition: background-color 0.3s ease-in-out,
-        transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: $background-color-transition,
+        $scale-transition;
 
-    &:hover {
-        transform: scale(1.05);
-        background-color: rgba($black-color-500, 0.1);
-    }
-
-    &:active {
-        transform: scale(0.95);
-        background-color: rgba($black-color-500, 0.2);
-    }
+    @include background-color-click(rgba($black-color-500, 0.1), rgba($black-color-500, 0.2));
+    @include scale-click();
 }
 
 .tertiary-button {
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    &:hover {
-        transform: scale(1.1);
-    }
-
-    &:active {
-        transform: scale(0.95);
-    }
+    transition: $scale-transition;
+    @include scale-click(1.10, 0.95);
 }
 
 input {
@@ -151,12 +156,8 @@ input {
     padding: unset;
 }
 
-textarea {}
-
-.search-input {}
-
-.default-input {
-    @extend p;
+.text-input {
+    @include body-text($font-size-md, $font-weight-normal);
     padding: .5rem .75rem;
     border: solid 1px $black-color-500;
     color: $black-color-500;
@@ -167,21 +168,36 @@ textarea {}
     }
 }
 
-// Cards and Containers
-
-.card-container {}
-
-.split-input-container {}
-
+// --------------- Containers ---------------
 .inline-icon {
     display: inline-flex;
     align-items: center;
     gap: .5rem;
 }
 
-.material-symbols-outlined {
-    font-weight: inherit;
-    font-style: inherit;
-    font-size: inherit;
-    line-height: inherit;
+.flex-container {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+// Flexbox Modifiers
+.flex-start {
+    justify-content: flex-start;
+}
+
+.flex-end {
+    justify-content: flex-end;
+}
+
+.flex-space-between {
+    justify-content: space-between;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.flex-shrink {
+    flex-shrink: 1;
 }
