@@ -1,1 +1,24 @@
-<p>recipe-search-page works!</p>
+
+
+<div class="relative-container">
+    <app-drawer class="nav-drawer" [isOpen]="true" [position]="'top'" [behavior]="'push'">
+        <div drawer-content class="nav-bar">
+            <h1>Nav bar</h1>
+            <button class="primary-button" (click)="toggleDrawer(!isDrawerOpen[0], 0)">Hamburger Menu</button>
+        </div>
+        <app-drawer class="hamburger-drawer" main-content [isOpen]="isDrawerOpen[0]" [position]="'right'" [behavior]="'overlay'">
+            <div drawer-content class="box">
+                <h3>Hamburger Menu</h3>
+            </div>
+            <app-drawer class="advanced-search-drawer" main-content [isOpen]="isDrawerOpen[1]" [position]="'left'" [behavior]="'push'">
+                <div drawer-content class="box">
+                    <h3>Advanced Search Menu</h3>
+                </div>
+                <div main-content class="box">
+                    <h1>Main</h1>
+                    <button class="primary-button" (click)="toggleDrawer(!isDrawerOpen[1], 1)">Advanced Search</button>
+                </div>
+            </app-drawer>
+        </app-drawer>
+    </app-drawer>
+</div>

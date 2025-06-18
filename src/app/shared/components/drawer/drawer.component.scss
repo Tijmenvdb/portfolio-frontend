@@ -1,0 +1,145 @@
+@use '../../styles/variables' as *;
+@use '../../styles/colors' as *;
+
+$drawer-transition: .3s ease;
+
+:host {
+    display: block;
+    position: relative;
+    overflow: hidden;
+
+    width: 100%;
+    height: 100%;
+
+    --drawer-size: 20rem;
+    --shadow: unset;
+    --z-index-drawer: 0;
+    --z-index-shadow: var(--z-index-drawer);
+    --z-index-overlay: var(--z-index-drawer);
+}
+
+.drawer, .main {
+    position: absolute;
+    display: flex;
+
+    transition: left $drawer-transition,
+        right $drawer-transition,
+        top $drawer-transition,
+        bottom $drawer-transition,
+        width $drawer-transition,
+        height $drawer-transition,
+        transform $drawer-transition,
+        box-shadow $drawer-transition;
+
+    bottom: 0;
+    left: 0;
+    top: 0;
+    right: 0;
+}
+
+.drawer {
+    z-index: var(--z-index-drawer);
+    will-change: transform, left, right, top, bottom, width, height;
+    max-width: 100%;
+    max-height: 100%;
+
+    &.left {
+        right: unset;
+        width: var(--drawer-size);
+        transform: translateX(-100%);
+    }
+
+    &.right {
+        left: unset;
+        width: var(--drawer-size);
+        transform: translateX(100%);
+    }
+
+    &.top {
+        bottom: unset;
+        height: var(--drawer-size);
+        transform: translateY(-100%);
+    }
+
+    &.bottom {
+        top: unset;
+        height: var(--drawer-size);
+        transform: translateY(100%);
+    }
+
+    &.fullscreen {
+        width: 100%;
+        height: 100%;
+    }
+
+    &.drawer-open {
+        transform: translate(0);
+    }
+}
+
+.drawer-shadow {
+    z-index: var(--z-index-shadow);
+
+    &.drawer-open {
+        box-shadow: var(--shadow);
+    }
+}
+
+.main {
+    &.push.drawer-open {
+        &.left {
+            left: var(--drawer-size);
+        }
+    
+        &.right {
+            right: var(--drawer-size);
+        }
+    
+        &.top {
+            top: var(--drawer-size);
+        }
+    
+        &.bottom {
+            bottom: var(--drawer-size);
+        }
+    }
+
+    &.fullscreen.drawer-open {
+        &.left {
+            transform: translateX(100%);
+        }
+    
+        &.right {
+            transform: translateX(-100%);
+        }
+    
+        &.top {
+            transform: translateY(100%);
+        }
+    
+        &.bottom {
+            transform: translateY(-100%);
+        }
+    }
+}
+
+.overlay-box {
+    z-index: var(--z-index-overlay);
+    opacity: 0;
+    position: absolute;
+    pointer-events: none;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    background-color: rgba($black-color-500, 0.5);
+
+    transition: opacity $drawer-transition;
+
+    &.active.overlay {
+        pointer-events: auto;
+        opacity: 1;
+    }
+}
