@@ -1,8 +1,10 @@
-@import 'app/shared/styles/_variables.scss';
-@import 'app/shared/styles/_colors.scss';
+@use 'app/shared/styles/variables' as *;
+@use 'app/shared/styles/colors' as *;
+@use 'app/shared/styles/mixins' as *;
 
 html {
     scroll-behavior: smooth;
+    background-color: $white-color-600;
 }
 
 body {
@@ -10,46 +12,99 @@ body {
     padding: 0;
 }
 
-// Text and Typography
-
-h1, .page-title {
-    font-size: 2rem;
+.material-symbols-outlined {
+    font-weight: inherit;
+    font-style: inherit;
+    font-size: inherit;
+    line-height: inherit;
 }
 
-h2, .section-title {
-    font-size: 1.5rem;
+// --------------- Text and Typography ---------------
+h1,
+.page-title {
+    @include header-text($font-size-xxl, $font-weight-bold);
 }
 
-h3, .subtitle {
-    font-size: 1.25rem;
+h2,
+.section-title {
+    @include header-text($font-size-xl, $font-weight-semibold);
 }
 
-h1, h2, h3, .page-title, .section-title, .subtitle {
-    font-family: 'Poppins', sans-serif;
-    color: $black-color-500;
-    font-weight: 700;
+h3,
+.subsection-title {
+    @include header-text($font-size-lg, $font-weight-semibold);
 }
 
-label {
-    font-size: .75rem;
-    font-weight: 500;
+
+p, .body-text{
+    @include body-text($font-size-md, $font-weight-normal);
 }
 
-p {
-    font-size: 1rem;
-    line-height: 1.5;
+label, .secondary-text {
+    @include body-text($font-size-sm, $font-weight-normal);
 }
 
-label, p {
-    font-family: 'Inter', sans-serif;
-    color: $black-color-500;
-    font-weight: 400;
+// --------------- Text Modifiers ---------------
+
+// Font Weights
+.font-weight-light {
+    font-weight: $font-weight-light;
 }
 
-// Buttons and Inputs
+.font-weight-normal {
+    font-weight: $font-weight-normal;
+}
+
+.font-weight-medium {
+    font-weight: $font-weight-medium;
+}
+
+.font-weight-semibold {
+    font-weight: $font-weight-semibold;
+}
+
+.font-weight-bold {
+    font-weight: $font-weight-bold;
+}
+
+// Font Sizes
+.font-size-xs {
+    font-size: $font-size-xs;
+}
+
+.font-size-sm {
+    font-size: $font-size-sm;
+}
+
+.font-size-md {
+    font-size: $font-size-md;
+}
+
+.font-size-lg {
+    font-size: $font-size-lg;
+}
+
+.font-size-xl {
+    font-size: $font-size-xl;
+}
+
+// --------------- Buttons and Inputs ---------------
 
 button {
+    padding: unset;
+    margin: unset;
+    border: unset;
+    outline: unset;
+    background: unset;
 
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+
+    cursor: pointer;
+    border-radius: 100rem;
+    will-change: transform;
 }
 
 a {
@@ -58,56 +113,91 @@ a {
 }
 
 .special-button {
-
+    // placeholder for special button styles
 }
 
 .primary-button {
+    @include body-text($font-size-md, $font-weight-bold);
+    color: $white-color-500;
 
+    padding: .5rem 1rem;
+    background-color: $primary-color-500;
+
+    transition: $background-color-transition,
+        $scale-transition;
+
+    @include background-color-click($primary-color-600, $primary-color-700);
+    @include scale-click();
 }
 
 .secondary-button {
+    @include body-text($font-size-md, $font-weight-bold);
+    color: $black-color-500;
 
+    padding: .5rem 1rem;
+
+    transition: $background-color-transition,
+        $scale-transition;
+
+    @include background-color-click(rgba($black-color-500, 0.1), rgba($black-color-500, 0.2));
+    @include scale-click();
 }
 
 .tertiary-button {
-
+    transition: $scale-transition;
+    @include scale-click(1.10, 0.95);
 }
 
 input {
-
+    background-color: unset;
+    outline: unset;
+    border: unset;
+    margin: unset;
+    padding: unset;
 }
 
-textarea {
+.text-input {
+    @include body-text($font-size-md, $font-weight-normal);
+    padding: .5rem .75rem;
+    border: solid 1px $black-color-500;
+    color: $black-color-500;
+    border-radius: .5rem;
 
+    &::placeholder {
+        color: $black-color-100;
+    }
 }
 
-.search-input {
-
-}
-
-.default-input {
-
-}
-
-// Cards and Containers
-
-.card-container {
-
-}
-
-.split-input-container {
-
-}
-
+// --------------- Containers ---------------
 .inline-icon {
     display: inline-flex;
     align-items: center;
     gap: .5rem;
 }
 
-.material-symbols-outlined {
-    font-weight: inherit;
-    font-style: inherit;
-    font-size: inherit;
-    line-height: inherit;
+.flex-container {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+// Flexbox Modifiers
+.flex-start {
+    justify-content: flex-start;
+}
+
+.flex-end {
+    justify-content: flex-end;
+}
+
+.flex-space-between {
+    justify-content: space-between;
+}
+
+.flex-grow {
+    flex-grow: 1;
+}
+
+.flex-shrink {
+    flex-shrink: 1;
 }
