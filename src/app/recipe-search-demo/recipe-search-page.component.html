@@ -1,18 +1,23 @@
-
-
 <div class="relative-container">
-    <app-drawer class="nav-drawer" [isOpen]="true" [position]="'top'" [behavior]="'push'">
+    <app-drawer class="nav-drawer" [isOpen]="true" [position]="'top'" [behavior]="'push'" [ariaLabel]="'Nav Bar'">
         <div drawer-content class="nav-bar">
             <h1>Nav bar</h1>
             <button class="primary-button" (click)="toggleDrawer(!isDrawerOpen[0], 0)">Hamburger Menu</button>
         </div>
-        <app-drawer class="hamburger-drawer" main-content [isOpen]="isDrawerOpen[0]" [position]="'right'" [behavior]="'overlay'">
+        <app-drawer class="hamburger-drawer" main-content [isOpen]="isDrawerOpen[0]" [position]="'right'" [behavior]="'overlay'" [ariaLabel]="'Hamburger Menu'" (toggle)="toggleDrawer($event, 0)">
             <div drawer-content class="box">
                 <h3>Hamburger Menu</h3>
+                <button class="secondary-button">Test Button</button>
+                <button class="secondary-button">Test Button</button>
+                <button class="secondary-button">Test Button</button>
+                <button class="secondary-button">Test Button</button>
+                <button class="secondary-button">Test Button</button>
+                <button class="secondary-button">Test Button</button>
             </div>
-            <app-drawer class="advanced-search-drawer" main-content [isOpen]="isDrawerOpen[1]" [position]="'left'" [behavior]="'push'">
+            <app-drawer class="advanced-search-drawer" main-content [isOpen]="isDrawerOpen[1]" [position]="'left'" [behavior]="'push'" [ariaLabelledby]="'drawer-title'">
                 <div drawer-content class="box">
-                    <h3>Advanced Search Menu</h3>
+                    <h3 id="drawer-title">Advanced Search Menu</h3>
+                    <button class="secondary-button">Test Button</button>
                 </div>
                 <div main-content class="box">
                     <h1>Main</h1>

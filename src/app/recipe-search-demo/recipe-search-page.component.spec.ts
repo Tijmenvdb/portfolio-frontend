@@ -20,4 +20,12 @@ describe('RecipeSearchPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should toggle the drawer', () => {
+    component.toggleDrawer(true, 0);
+    expect(component.isDrawerOpen[0]).toBeTrue();
+
+    component.toggleDrawer(false, 0);
+    expect(component.isDrawerOpen[0]).toBeFalse();
+  });
 });

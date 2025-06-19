@@ -32,18 +32,20 @@
 .nav-drawer {
     --drawer-size: 3.5rem;
     --shadow: #{$container-shadow};
-    --z-index: 95;
+    --z-index-drawer: 95;
+    --z-index-shadow: 90;
 }
 
 .hamburger-drawer {
     --drawer-size: 20rem;
-    --shadow: #{$container-shadow};
-    --z-index: 96;
+    --z-index-drawer: 95;
+    --z-index-overlay: 94;
 }
 
 .advanced-search-drawer {
     --drawer-size: 20rem;
     --shadow: #{$container-shadow};
-    --z-index: 91;
+    --z-index-drawer: 93;
+    --z-index-shadow: 90;
 }
 
