@@ -19,7 +19,7 @@
     font-family: $body-font;
     color: inherit;
     margin: 0;
-    line-height: 1.5;
+    line-height: 1;
 }
 
 // --------------- Buttons and Inputs ---------------
@@ -54,11 +54,19 @@
     }
 }
 
+@mixin outline-focus($outline-color, $outline-size: 3px) {
+    outline: solid 0;
+
+    &:focus-visible {
+        outline: solid $outline-size $outline-color;
+    }
+}
+
 // --------------- Cards and Containers ---------------
 
 @mixin card($border-radius, $padding) {
     background-color: $white-color-500;
-    box-shadow: $conatiner-shadow;
+    box-shadow: $container-shadow;
     color: $black-color-500;
     border-radius: $border-radius;
     padding: $padding;

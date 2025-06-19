@@ -5,11 +5,14 @@
 html {
     scroll-behavior: smooth;
     background-color: $white-color-600;
+    height: 100%;
 }
 
 body {
     margin: 0;
     padding: 0;
+    overflow: hidden;
+    height: 100%;
 }
 
 .material-symbols-outlined {
@@ -117,17 +120,19 @@ a {
 }
 
 .primary-button {
-    @include body-text($font-size-md, $font-weight-bold);
+    @include body-text($font-size-lg, $font-weight-bold);
     color: $white-color-500;
 
     padding: .5rem 1rem;
     background-color: $primary-color-500;
 
     transition: $background-color-transition,
-        $scale-transition;
+        $scale-transition,
+        $outline-transition;
 
     @include background-color-click($primary-color-600, $primary-color-700);
     @include scale-click();
+    @include outline-focus($black-color-500);
 }
 
 .secondary-button {
@@ -137,15 +142,20 @@ a {
     padding: .5rem 1rem;
 
     transition: $background-color-transition,
-        $scale-transition;
+        $scale-transition,
+        $outline-transition;
 
     @include background-color-click(rgba($black-color-500, 0.1), rgba($black-color-500, 0.2));
     @include scale-click();
+    @include outline-focus($black-color-500);
 }
 
 .tertiary-button {
-    transition: $scale-transition;
+    transition: $scale-transition,
+        $outline-transition;
+
     @include scale-click(1.10, 0.95);
+    @include outline-focus($black-color-500);
 }
 
 input {
@@ -162,6 +172,9 @@ input {
     border: solid 1px $black-color-500;
     color: $black-color-500;
     border-radius: .5rem;
+
+    transition: $outline-transition;
+    @include outline-focus($black-color-500, 2px);
 
     &::placeholder {
         color: $black-color-100;
