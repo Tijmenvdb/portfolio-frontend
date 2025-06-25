@@ -23,9 +23,11 @@ $font-weight-bold: 700;
 $color-transition: color 0.3s ease-in-out;
 $background-color-transition: background-color 0.3s ease-in-out;
 $scale-transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-$outline-transition: outline 0.2s ease;
+$outline-transition: outline 0s ease;
 
 // Shadow
+$nav-shadow: 0rem 0rem .25rem .25rem rgba($black-color-500, 20%);
+$card-shadow: .25rem .25rem .25rem rgba($black-color-500, 20%);
 $container-shadow: .25rem .25rem .25rem rgba($black-color-500, 20%);
 
 // Media query breakpoints

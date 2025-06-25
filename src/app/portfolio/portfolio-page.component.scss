@@ -1,0 +1,9 @@
+:host {
+    flex: 1 1 auto;
+    overflow: auto;
+    scroll-behavior: smooth;
+}
+
+section {
+    height: calc(100vh - 3.5rem);
+}

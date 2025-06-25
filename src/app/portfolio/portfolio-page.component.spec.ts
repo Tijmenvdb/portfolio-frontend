@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PortfolioPageComponent } from './portfolio-page.component';
+import { ActivatedRoute } from '@angular/router';
 
 describe('PortfolioPageComponent', () => {
   let component: PortfolioPageComponent;
@@ -8,7 +9,10 @@ describe('PortfolioPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PortfolioPageComponent]
+      imports: [PortfolioPageComponent],
+      providers: [
+        { provide: ActivatedRoute, useValue: {} }
+      ]
     })
     .compileComponents();
 
