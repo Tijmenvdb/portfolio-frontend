@@ -13,7 +13,7 @@ export class PortfolioPageComponent implements AfterViewInit {
     constructor(private route: ActivatedRoute) {}
   
     ngAfterViewInit(): void {
-      const fragment = this.route.snapshot.fragment;
+      const fragment = this.route?.snapshot?.fragment;
       document.getElementById(fragment?? '')?.scrollIntoView();
     }
 }

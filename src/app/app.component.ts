@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet, UrlSegment } from '@angular/router';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { NavBarComponent } from './shared/components/nav-bar/nav-bar.component';
 import { filter } from 'rxjs';
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -13,10 +14,12 @@ export class AppComponent {
   title = 'portfolio-frontend';
   page: 'portfolio' | 'recipe-search' | 'user-profile' = 'portfolio';
 
-  constructor(private route: Router) {}
+  constructor(private route: Router, @Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit(): void {
-    this.updatePage(document.URL);
+    if (isPlatformBrowser(this.platformId)) {
+      this.updatePage(document.URL);
+    }
 
     this.route.events.pipe(
       filter(event => event instanceof NavigationEnd)

@@ -1,8 +1,8 @@
 <nav class="nav-bar">
     <div class="left">
-        <div [class.show-ele]="!isMobileLayout && isPortfoiloPage"
-             [attr.aria-hidden]="!(!isMobileLayout && isPortfoiloPage)? true : null"
-             [attr.inert]="!(!isMobileLayout && isPortfoiloPage)? true : null">
+        <div [class.show-ele]="!isMobileLayout && isPortfolioPage"
+             [attr.aria-hidden]="!(!isMobileLayout && isPortfolioPage)? true : null"
+             [attr.inert]="!(!isMobileLayout && isPortfolioPage)? true : null">
             <a [href]="portfolioUrl + '#' + aboutFragment" class="section-title">
                 About
             </a>
@@ -13,16 +13,16 @@
                 Contact
             </a>
         </div>
-        <div [class.show-ele]="isMobileLayout && !isPortfoiloPage"
-             [attr.aria-hidden]="!(isMobileLayout && !isPortfoiloPage)? true : null"
-             [attr.inert]="!(isMobileLayout && !isPortfoiloPage)? true : null">
+        <div [class.show-ele]="isMobileLayout && !isPortfolioPage"
+             [attr.aria-hidden]="!(isMobileLayout && !isPortfolioPage)? true : null"
+             [attr.inert]="!(isMobileLayout && !isPortfolioPage)? true : null">
             <a [routerLink]="portfolioUrl" [fragment]="demoFragment" class="section-title material-symbols-outlined" aria-label="Go Back">
                 arrow_back_ios_new
             </a>
         </div>
-        <div [class.show-ele]="!isMobileLayout && !isPortfoiloPage"
-            [attr.aria-hidden]="!(!isMobileLayout && !isPortfoiloPage)? true : null"
-            [attr.inert]="!(!isMobileLayout && !isPortfoiloPage)? true : null">
+        <div [class.show-ele]="!isMobileLayout && !isPortfolioPage"
+            [attr.aria-hidden]="!(!isMobileLayout && !isPortfolioPage)? true : null"
+            [attr.inert]="!(!isMobileLayout && !isPortfolioPage)? true : null">
             <a [routerLink]="portfolioUrl" [fragment]="demoFragment" class="section-title inline-icon" aria-label="Go Back">
                 <span class="material-symbols-outlined">
                     arrow_back_ios_new
@@ -39,7 +39,7 @@
             [attr.inert]="!(!isMobileLayout && isSearchEnabled)? true : null">
             <div class="split-input">
                 <input [(ngModel)]="searchStr" name="search" class="search-input" type="text" placeholder="Search" aria-label="Search"/>
-                <button class="material-symbols-outlined primary-button dark" (click)="onSearch()" aria-label="Search">
+                <button class="material-symbols-outlined primary-button dark" (click)="search.emit(this.searchStr)" aria-label="Search">
                     search
                 </button>
             </div>
@@ -47,7 +47,7 @@
         <div [class.show-ele]="isMobileLayout && isSearchEnabled"
             [attr.aria-hidden]="!(isMobileLayout && isSearchEnabled)? true : null"
             [attr.inert]="!(isMobileLayout && isSearchEnabled)? true : null">
-            <button class="material-symbols-outlined primary-button dark" (click)="onSearchBtn()" aria-label="Expand Search">
+            <button class="material-symbols-outlined primary-button dark" (click)="searchBtn.emit()" aria-label="Expand Search">
                 search
             </button>
         </div>
@@ -56,7 +56,7 @@
         <div [class.show-ele]="(!isMobileLayout && isWalkthroughEnabled) && !(isSearchReduced && isSearchEnabled)"
             [attr.aria-hidden]="!((!isMobileLayout && isWalkthroughEnabled) && !(isSearchReduced && isSearchEnabled))? true : null"
             [attr.inert]="!((!isMobileLayout && isWalkthroughEnabled) && !(isSearchReduced && isSearchEnabled))? true : null">
-            <button class="primary-button dark" (click)="onWalkthrough()" aria-label="Walkthrough">
+            <button class="primary-button dark" (click)="walkthrough.emit()" aria-label="Walkthrough">
                 Walkthrough
             </button>
         </div>
@@ -87,16 +87,16 @@
 </nav>
 <app-drawer class="nav-drawer" [isOpen]="isDrawerOpen && (isMobileLayout || (isSearchReduced && isSearchEnabled))" [position]="'right'" [behavior]="'overlay'" [ariaLabel]="'Nav Bar'" (toggle)="toggleDrawer($event)">
     <nav drawer-content class="side-nav body-text">
-        <a [href]="portfolioUrl + '#' + aboutFragment" *ngIf="isPortfoiloPage" (click)="toggleDrawer(false)">
+        <a [href]="portfolioUrl + '#' + aboutFragment" *ngIf="isPortfolioPage" (click)="toggleDrawer(false)">
             About
         </a>
-        <a [href]="portfolioUrl + '#' + demoFragment" *ngIf="isPortfoiloPage" (click)="toggleDrawer(false)">
+        <a [href]="portfolioUrl + '#' + demoFragment" *ngIf="isPortfolioPage" (click)="toggleDrawer(false)">
             Demo
         </a>
-        <a [href]="portfolioUrl + '#' + contactFragment" *ngIf="isPortfoiloPage" (click)="toggleDrawer(false)">
+        <a [href]="portfolioUrl + '#' + contactFragment" *ngIf="isPortfolioPage" (click)="toggleDrawer(false)">
             Contact
         </a>
-        <button *ngIf="!isPortfoiloPage">
+        <button *ngIf="!isPortfolioPage" (click)="walkthrough.emit()">
             Walkthrough
         </button>
         <a [href]="githubUrl" target="_blank" class="inline-icon" aria-label="Github">
