@@ -2,6 +2,10 @@
 @use '../shared/styles/colors' as *;
 @use '../shared/styles/mixins' as *;
 
+:host {
+    flex: 1 1 auto;
+}
+
 .nav-bar {
     display: flex;
     position: relative;
@@ -44,8 +48,8 @@
 
 .advanced-search-drawer {
     --drawer-size: 20rem;
-    --shadow: #{$container-shadow};
-    --z-index-drawer: 93;
+    --shadow: #{$nav-shadow};
+    --z-index-drawer: 100;
     --z-index-shadow: 90;
 }
 

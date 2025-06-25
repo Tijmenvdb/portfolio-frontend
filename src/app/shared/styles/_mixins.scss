@@ -56,6 +56,7 @@
 
 @mixin outline-focus($outline-color, $outline-size: 3px) {
     outline: solid 0;
+    outline-offset: 0;
 
     &:focus-visible {
         outline: solid $outline-size $outline-color;

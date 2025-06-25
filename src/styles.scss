@@ -16,6 +16,7 @@ body {
 }
 
 .material-symbols-outlined {
+    font-family: 'Material Symbols Outlined' !important;
     font-weight: inherit;
     font-style: inherit;
     font-size: inherit;
@@ -104,15 +105,19 @@ button {
     font-family: inherit;
     font-size: inherit;
     font-weight: inherit;
-
-    cursor: pointer;
-    border-radius: 100rem;
-    will-change: transform;
 }
 
 a {
     text-decoration: none;
     color: inherit;
+}
+
+// TODO make mixin
+.special-button, .primary-button, .secondary-button, .tertiary-button {
+    cursor: pointer;
+    user-select: none;
+    border-radius: 100rem;
+    will-change: transform;
 }
 
 .special-button {
@@ -133,6 +138,14 @@ a {
     @include background-color-click($primary-color-600, $primary-color-700);
     @include scale-click();
     @include outline-focus($black-color-500);
+
+    &.dark {
+        @include outline-focus($white-color-500);
+    }
+
+    &.light {
+        @include outline-focus($black-color-500);
+    }
 }
 
 .secondary-button {
@@ -166,6 +179,7 @@ input {
     padding: unset;
 }
 
+// TODO make input Mixin
 .text-input {
     @include body-text($font-size-md, $font-weight-normal);
     padding: .5rem .75rem;
@@ -174,14 +188,68 @@ input {
     border-radius: .5rem;
 
     transition: $outline-transition;
-    @include outline-focus($black-color-500, 2px);
+    @include outline-focus($primary-color-500, 2px);
+    outline-offset: -2px;
 
     &::placeholder {
         color: $black-color-100;
     }
 }
 
+.search-input {
+    @include body-text($font-size-md, $font-weight-normal);
+    padding: .5rem 1rem;
+    background-color: $white-color-500;
+    color: $black-color-500;
+    border-radius: 50rem;
+
+    width: 100%;
+    max-width: 35rem;
+
+    transition: $outline-transition;
+    @include outline-focus($primary-color-500, 2px);
+    outline-offset: -2px;
+
+    &::placeholder {
+        color: $black-color-100;
+    }
+}
+
+.split-input {
+    display: flex;
+    justify-content: center;
+    flex-grow: 1;
+    
+    :first-child {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    :not(:first-child):not(:last-child) {
+        border-radius: 0;
+    }
+
+    :last-child {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    > * {
+        &:hover {
+            transform: unset;
+        }
+        &:active {
+            transform: unset;
+        }
+    }
+
+    button:focus-visible {
+        outline-offset: -3px;
+    }
+}
+
 // --------------- Containers ---------------
+
 .inline-icon {
     display: inline-flex;
     align-items: center;
