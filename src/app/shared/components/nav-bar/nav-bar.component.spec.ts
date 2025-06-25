@@ -50,4 +50,6 @@ describe('NavBarComponent', () => {
     component.toggleDrawer(true);
     expect(component.isDrawerOpen).toBeTrue();
   })
+
+  // TODO test viewport size changes
 });

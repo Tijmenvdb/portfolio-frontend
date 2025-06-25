@@ -1,6 +1,7 @@
 @use 'app/shared/styles/variables' as *;
 @use 'app/shared/styles/colors' as *;
 @use 'app/shared/styles/mixins' as *;
+// TODO import google icons with reduced list for faster load times
 
 html {
     scroll-behavior: smooth;

@@ -30,6 +30,7 @@ export class AppComponent {
   }
 
   updatePage(url: string) {
+    // TODO Using Angular's router path/params to determine the page type would be more robust than string includes.
     if(url.includes('portfolio')) {
       this.page = 'portfolio'
     } else if(url.includes('recipe-search')) {

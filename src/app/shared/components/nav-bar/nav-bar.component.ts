@@ -51,6 +51,7 @@ export class NavBarComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
     // Todo Create a windowRef Class injectable
+    // TODO extact mobile layout into it's own service
     if (isPlatformBrowser(this.platformId)) {
       this.mobileMediaQuery = window.matchMedia('(max-width: 37rem)');
       this.reducedMediaQuery = window.matchMedia('(max-width: 50rem)');
