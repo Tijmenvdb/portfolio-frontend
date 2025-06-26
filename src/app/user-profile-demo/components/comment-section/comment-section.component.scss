@@ -1,0 +1,26 @@
+@use '../../../shared/styles/variables' as *;
+@use '../../../shared/styles/colors' as *;
+@use '../../../shared/styles/mixins' as *;
+
+.comment-section {
+    .section-header {
+        transition: margin .1s ease;
+        margin: 1rem 1.5rem .5rem 1.5rem;
+
+        @include respond-lg {
+            margin: 1rem 1rem .5rem 1rem;
+        }
+    }
+
+    .comment-card-list {
+        display: flex;
+        flex-direction: column;
+        gap: .5rem;
+
+        transition: margin .1s ease;
+        margin: .5rem 1rem 1rem 1rem;
+        @include respond-lg {
+            margin: .5rem .5rem 1rem .5rem;
+        }
+    }
+}
