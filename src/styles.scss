@@ -161,7 +161,7 @@ a {
 
     @include background-color-click(rgba($black-color-500, 0.1), rgba($black-color-500, 0.2));
     @include scale-click();
-    @include outline-focus($black-color-500);
+    @include outline-focus($primary-color-500);
 }
 
 .tertiary-button {
@@ -169,7 +169,7 @@ a {
         $outline-transition;
 
     @include scale-click(1.10, 0.95);
-    @include outline-focus($black-color-500);
+    @include outline-focus($primary-color-500);
 }
 
 input {

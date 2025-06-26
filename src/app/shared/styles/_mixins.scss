@@ -72,3 +72,33 @@
     border-radius: $border-radius;
     padding: $padding;
 }
+
+// --------------- Media query breakpoints ---------------
+$breakpoint-sm: 37rem;
+$breakpoint-md: 50rem;
+$breakpoint-lg: 57rem;
+$breakpoint-xl: 1200px;
+
+@mixin respond-sm {
+    @media (max-width: $breakpoint-sm) {
+        @content;
+    }
+}
+
+@mixin respond-md {
+    @media (max-width: $breakpoint-md) {
+        @content;
+    }
+}
+
+@mixin respond-lg {
+    @media (max-width: $breakpoint-lg) {
+        @content;
+    }
+}
+
+@mixin respond-xl {
+    @media (max-width: $breakpoint-xl) {
+        @content;
+    }
+}

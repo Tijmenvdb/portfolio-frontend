@@ -29,33 +29,3 @@ $outline-transition: outline 0s ease;
 $nav-shadow: 0rem 0rem .25rem .25rem rgba($black-color-500, 20%);
 $card-shadow: .25rem .25rem .25rem rgba($black-color-500, 20%);
 $container-shadow: .25rem .25rem .25rem rgba($black-color-500, 20%);
-
-// Media query breakpoints
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
-
-@mixin respond-sm {
-    @media (max-width: $breakpoint-sm) {
-        @content;
-    }
-}
-
-@mixin respond-md {
-    @media (max-width: $breakpoint-md) {
-        @content;
-    }
-}
-
-@mixin respond-lg {
-    @media (max-width: $breakpoint-lg) {
-        @content;
-    }
-}
-
-@mixin respond-xl {
-    @media (max-width: $breakpoint-xl) {
-        @content;
-    }
-}

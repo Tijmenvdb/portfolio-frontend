@@ -41,7 +41,7 @@ export class DrawerComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if(changes?.['isOpen'].currentValue != changes?.['isOpen'].previousValue && changes?.['isOpen'].currentValue) {
+    if(changes?.['isOpen'] && changes?.['isOpen'].currentValue != changes?.['isOpen'].previousValue && changes?.['isOpen'].currentValue) {
       this.previouslyFocusedElement = document.activeElement as HTMLElement;
       setTimeout(() => this.getFocusableElements(this.drawer)?.[0]?.focus({ preventScroll: true }));
 
@@ -50,7 +50,7 @@ export class DrawerComponent implements OnChanges {
       }
     }
 
-    if(changes?.['isOpen'].currentValue != changes?.['isOpen'].previousValue && !changes?.['isOpen'].currentValue) {
+    if(changes?.['isOpen'] && changes?.['isOpen'].currentValue != changes?.['isOpen'].previousValue && !changes?.['isOpen'].currentValue) {
       setTimeout(() =>  this.previouslyFocusedElement?.focus({ preventScroll: true }));
       this.keydownEvent = () => {};
     }

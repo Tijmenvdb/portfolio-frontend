@@ -13,6 +13,8 @@ $drawer-transition: .3s ease;
 
     --drawer-size: 20rem;
     --shadow: unset;
+    --overlay-color: #{$black-color-500};
+    --overlay-opacity: .5;
     --z-index-drawer: 0;
     --z-index-shadow: var(--z-index-drawer);
     --z-index-overlay: var(--z-index-drawer);
@@ -133,13 +135,13 @@ $drawer-transition: .3s ease;
     left: 0;
     right: 0;
     bottom: 0;
-
-    background-color: rgba($black-color-500, 0.5);
+    
+    background-color: var(--overlay-color);
 
     transition: opacity $drawer-transition;
 
     &.active.overlay {
         pointer-events: auto;
-        opacity: 1;
+        opacity: var(--overlay-opacity);
     }
 }
