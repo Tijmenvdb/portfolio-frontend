@@ -1,8 +1,8 @@
-<div class="user-profile-page">
-    <main class="user-profile-container" aria-labelledby="main-title">
+<app-drawer class="comments-drawer-var" [behavior]="isReducedLayout? isMobileLayout? 'fullscreen' : 'overlay' : 'push'" [position]="'right'" [isOpen]="isCommentOpen" [ariaLabelledby]="'comment-header'" (toggle)="toggleDrawer($event)">
+    <main main-content class="user-profile-container" aria-labelledby="main-title">
         <header class="flex-container">
             <h1 id="main-title">User Profile</h1>
-            <button class="primary-button inline-icon">
+            <button class="primary-button inline-icon" (click)="isCommentOpen = !isCommentOpen">
                 <span>
                     Edit
                 </span>
@@ -12,12 +12,12 @@
             </button>
         </header>
     </main>
-    <aside class="comments-drawer">
+    <div drawer-content class="comments-drawer" tabIndex="-1">
         <h1 class="drawer-header flex-container flex-space-between">
-            <span>
+            <span id="comment-header">
                 Comments
             </span>
-            <button class="material-symbols-outlined tertiary-button" aria-label="Close Drawer">
+            <button class="material-symbols-outlined tertiary-button" aria-label="Close Drawer" (click)="isCommentOpen = !isCommentOpen">
                 close
             </button>
         </h1>
@@ -189,5 +189,5 @@
                 </div>
             </div>
         </div>
-    </aside>
-</div>
+    </div>
+</app-drawer>
