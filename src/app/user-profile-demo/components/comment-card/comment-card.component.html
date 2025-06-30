@@ -1,5 +1,5 @@
 
-<div class="comment-card" tabIndex="-1">
+<div [id]="elementId" class="comment-card" tabIndex="-1" (click)="onClick()">
     <ng-container *ngIf="!!comment; else commentData">
         <div class="comment">
             <div class="flex-container">
@@ -8,7 +8,7 @@
             </div>
             <p>{{comment.message}}</p>
             <div class="flex-container">
-                <button class="secondary-button inline-icon" (click)="isReplyEnabled = true">
+                <button *ngIf="!isReplyEnabled" class="secondary-button inline-icon" (click)="onReply()">
                     <span class="material-symbols-outlined">
                         reply
                     </span>
@@ -21,7 +21,7 @@
         <div class="comment left-padding" *ngIf="isReplyEnabled">
             <input type="text" placeholder="Reply to comment..." class="text-input" aria-label="Reply">
             <div class="flex-container flex-end">
-                <button class="secondary-button" (click)="isReplyEnabled = false">
+                <button class="secondary-button" (click)="onCancelReply()">
                     Cancel
                 </button>
                 <button class="secondary-button">

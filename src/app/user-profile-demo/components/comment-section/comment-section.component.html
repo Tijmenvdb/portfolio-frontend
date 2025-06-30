@@ -1,14 +1,14 @@
-<div class="comment-section">
+<div [id]="elementId" class="comment-section" *ngIf="(commentSection$ | async)?.isAddComment || !!(commentSection$ | async)?.comments?.length">
     <h3 class="section-header flex-container flex-space-between">
-        <span>
-            {{title}}
-        </span>
-        <button class="tertiary-button material-symbols-outlined" aria-label="Add Comment" (click)="isAddComment = true">
+        <button class="tertiary-button" (click)="onClickHeader()">
+            {{(commentSection$ | async)?.title}}
+        </button>
+        <button class="tertiary-button material-symbols-outlined" aria-label="Add Comment" (click)="updateAddComment(true)">
             add_circle
         </button>
     </h3>
     <div class="comment-card-list">
-        <app-comment-card *ngIf="isAddComment" (cancelCreate)="isAddComment = false"></app-comment-card>
-        <app-comment-card *ngFor="let comment of comments" [comment]="comment"></app-comment-card>
+        <app-comment-card *ngIf="(commentSection$ | async)?.isAddComment" [sectionId]="sectionId" (cancelCreate)="updateAddComment(false)"></app-comment-card>
+        <app-comment-card *ngFor="let comment of (commentSection$ | async)?.comments" [sectionId]="sectionId" [comment]="comment"></app-comment-card>
     </div>
 </div>

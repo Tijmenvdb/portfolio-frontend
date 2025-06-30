@@ -21,6 +21,14 @@ export class DrawerComponent implements OnChanges {
   position: 'left' | 'right' | 'top' | 'bottom' = 'bottom';
 
   @Input()
+  focusableElement?: HTMLElement | null;
+
+  previouslyFocusedElement?: HTMLElement;
+
+  @Input()
+  returnElement?: HTMLElement | null
+
+  @Input()
   isOpen: boolean = false;
 
   @Input()
@@ -32,18 +40,17 @@ export class DrawerComponent implements OnChanges {
   @Output()
   toggle: EventEmitter<boolean> = new EventEmitter();
 
-  previouslyFocusedElement?: HTMLElement;
-
   roles: Record<string, string> = {
     'push' : 'complementary',
     'overlay' : 'dialog',
     'fullscreen' : 'main'
   }
 
+  // TODO fix chrome aria hidden issue 
   ngOnChanges(changes: SimpleChanges) {
     if(changes?.['isOpen'] && changes?.['isOpen'].currentValue != changes?.['isOpen'].previousValue && changes?.['isOpen'].currentValue) {
       this.previouslyFocusedElement = document.activeElement as HTMLElement;
-      setTimeout(() => this.getFocusableElements(this.drawer)?.[0]?.focus({ preventScroll: true }));
+      setTimeout(() => (this.focusableElement? this.focusableElement : this.getFocusableElements(this.drawer)?.[0])?.focus({ preventScroll: true }));
 
       if(this.behavior == 'overlay') {
         this.keydownEvent = this.focusTrap;
@@ -51,7 +58,7 @@ export class DrawerComponent implements OnChanges {
     }
 
     if(changes?.['isOpen'] && changes?.['isOpen'].currentValue != changes?.['isOpen'].previousValue && !changes?.['isOpen'].currentValue) {
-      setTimeout(() =>  this.previouslyFocusedElement?.focus({ preventScroll: true }));
+      setTimeout(() =>  (this.returnElement? this.returnElement : this.previouslyFocusedElement)?.focus({ preventScroll: true }));
       this.keydownEvent = () => {};
     }
   }

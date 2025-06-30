@@ -1,20 +1,30 @@
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, PLATFORM_ID } from '@angular/core';
 import { DrawerComponent } from '../shared/components/drawer/drawer.component';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { CommentCardComponent } from './components/comment-card/comment-card.component';
 import { CommentSectionComponent } from './components/comment-section/comment-section.component';
+import { CommentHookComponent } from './components/comment-hook/comment-hook.component';
+import { UserProfileServiceService } from './services/user-profile-service.service';
+import { CommentSectionOrderPipe } from './pipes/comment-section-order.pipe';
 
 @Component({
   selector: 'app-user-profile-page',
-  imports: [ CommonModule, DrawerComponent, CommentSectionComponent ],
+  imports: [
+    CommonModule,
+    DrawerComponent,
+    CommentSectionComponent,
+    CommentHookComponent,
+    CommentSectionOrderPipe
+  ],
   templateUrl: './user-profile-page.component.html',
   styleUrl: './user-profile-page.component.scss'
 })
 export class UserProfilePageComponent {
 
-  isCommentOpen: boolean = false;
   isReducedLayout: boolean = false;
   isMobileLayout: boolean = false;
+
+  afterTime: boolean = false;
 
   commentSections: any[] = [
     {
@@ -237,7 +247,10 @@ export class UserProfilePageComponent {
   private mobileMediaQuery?: MediaQueryList;
   private mobileListener = (e: MediaQueryListEvent) => this.isMobileLayout = e.matches;
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    protected service: UserProfileServiceService,
+    private changeDetRef: ChangeDetectorRef) {}
 
   ngOnInit() {
     if (isPlatformBrowser(this.platformId)) {
@@ -249,6 +262,8 @@ export class UserProfilePageComponent {
       this.mobileMediaQuery.addEventListener('change', this.mobileListener);
       this.isMobileLayout = this.mobileMediaQuery.matches;
     }
+
+    setTimeout(() => this.afterTime = true, 5000);
   }
 
   ngOnDestroy(): void {
