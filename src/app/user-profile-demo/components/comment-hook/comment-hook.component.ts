@@ -1,14 +1,16 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { CommentElementType, CommentSection, UserProfileServiceService } from '../../services/user-profile-service.service';
 import { BehaviorSubject, delay, take } from 'rxjs';
+import { CommentElementDirective } from '../../directives/comment-element.directive';
+import { CommentElementService, CommentElementType as ElementType } from '../../services/comment-element.service';
 
 @Component({
   selector: 'app-comment-hook',
-  imports: [],
+  imports: [CommentElementDirective],
   templateUrl: './comment-hook.component.html',
   styleUrl: './comment-hook.component.scss'
 })
-export class CommentHookComponent implements OnInit, OnChanges, OnDestroy{
+export class CommentHookComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input()
   sectionId!: string;
@@ -19,21 +21,19 @@ export class CommentHookComponent implements OnInit, OnChanges, OnDestroy{
   @Input()
   order: number = 0;
 
+  ElementType = ElementType;
+
   commentSection$!: BehaviorSubject<CommentSection>;
 
   isEmpty: boolean = false;
-  isFocused: boolean = false;
-  elementId: string = '';
 
-  constructor(private service: UserProfileServiceService) { }
+  constructor(private service: UserProfileServiceService, private elementService: CommentElementService) { }
 
   ngOnInit() {
-    this.elementId = this.sectionId + CommentElementType.Hook;
     this.commentSection$ = this.service.initHook(this.sectionId, this.title, this.order);
 
     this.commentSection$.subscribe((section) => {
-      this.isEmpty = !section.comments.length;
-      this.isFocused = !!section.focusedComment;
+      this.isEmpty = !section.comments.length || (section.comments.length == 1 && !!section.comments[0].isNew);
     })
   }
 
@@ -52,7 +52,6 @@ export class CommentHookComponent implements OnInit, OnChanges, OnDestroy{
     if(changes['order'].previousValue != changes['order'].currentValue) {
       console.log("order change")
       this.service.triggerSectionUpdate();
-      // this.service.updateOrder$.next();
     }
   }
 
@@ -62,33 +61,14 @@ export class CommentHookComponent implements OnInit, OnChanges, OnDestroy{
 
   onClick() {
     this.service.isDrawerOpen = true;
-    // document.getElementById(`${this.sectionId}-section`)?.scrollIntoView({});
+
+    var commentSection = this.commentSection$.value;
 
     if(this.isEmpty) {
-      var commentSection = this.commentSection$.value;
-      commentSection.isAddComment = true;
-
-      this.commentSection$.pipe(
-        take(1),
-        delay(10)
-      ).subscribe(
-        () => {
-          this.scrollToHeader();
-          this.service.focusComment(this.sectionId);
-          this.service.tabIntoComment();
-      })
-      this.commentSection$.next(commentSection);
-
-    } else {
-      this.scrollToHeader();
-      this.service.focusComment(this.sectionId, this.commentSection$.value.isAddComment? undefined : this.commentSection$.value.comments[0].commentId);
-      this.service.tabIntoComment();
+      this.service.addComment(this.sectionId);
     }
-
-    this.service.returnHook = document.getElementById(this.sectionId + CommentElementType.Hook);
-  }
-
-  scrollToHeader() {
-    this.service.scrollToSection(this.sectionId);
+    
+    const commentId = commentSection.isAddComment? this.sectionId : commentSection.comments[0].commentId;
+    setTimeout(() => this.elementService.jumpToSection(this.sectionId, commentId), 1);
   }
 }

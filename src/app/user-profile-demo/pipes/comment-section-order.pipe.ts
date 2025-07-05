@@ -10,11 +10,16 @@ export class CommentSectionOrderPipe implements PipeTransform {
   transform(map: Map<string, BehaviorSubject<CommentSection>>): {sectionId: string, commentSection$: BehaviorSubject<CommentSection>}[] {
     console.log("Sorting Elements: ", Array.from(map.entries()))
 
-    const sortedList = Array.from(map.entries()).sort(
+    const sortedList = Array.from(map.entries())
+    .filter(
+      ([, section]) => !!section.value.comments.length
+    ).sort(
       ([, a], [, b]) => a.value.order - b.value.order 
     ).map(
       ([id, section$]) => ({ sectionId: id, commentSection$: section$ })
     );
+
+    console.log("Sorted Elements: ", sortedList)
 
     return sortedList;
   }

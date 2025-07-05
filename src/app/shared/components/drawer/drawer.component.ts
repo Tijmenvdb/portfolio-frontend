@@ -21,14 +21,6 @@ export class DrawerComponent implements OnChanges {
   position: 'left' | 'right' | 'top' | 'bottom' = 'bottom';
 
   @Input()
-  focusableElement?: HTMLElement | null;
-
-  previouslyFocusedElement?: HTMLElement;
-
-  @Input()
-  returnElement?: HTMLElement | null
-
-  @Input()
   isOpen: boolean = false;
 
   @Input()
@@ -37,8 +29,22 @@ export class DrawerComponent implements OnChanges {
   @Input()
   ariaLabelledby?: string;
 
+  @Input()
+  targetEntryElement?: HTMLElement | null;
+
+  @Input()
+  targetReturnElement?: HTMLElement | null;
+
   @Output()
   toggle: EventEmitter<boolean> = new EventEmitter();
+
+  @Input()
+  focusableElement?: HTMLElement | null;
+
+  previouslyFocusedElement?: HTMLElement;
+
+  @Input()
+  returnElement?: HTMLElement | null
 
   roles: Record<string, string> = {
     'push' : 'complementary',
@@ -50,7 +56,9 @@ export class DrawerComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if(changes?.['isOpen'] && changes?.['isOpen'].currentValue != changes?.['isOpen'].previousValue && changes?.['isOpen'].currentValue) {
       this.previouslyFocusedElement = document.activeElement as HTMLElement;
-      setTimeout(() => (this.focusableElement? this.focusableElement : this.getFocusableElements(this.drawer)?.[0])?.focus({ preventScroll: true }));
+      const entryElement = this.targetEntryElement? this.targetEntryElement : this.getFocusableElements(this.drawer)?.[0];
+
+      setTimeout(() => entryElement?.focus({ preventScroll: true }));
 
       if(this.behavior == 'overlay') {
         this.keydownEvent = this.focusTrap;
@@ -58,7 +66,9 @@ export class DrawerComponent implements OnChanges {
     }
 
     if(changes?.['isOpen'] && changes?.['isOpen'].currentValue != changes?.['isOpen'].previousValue && !changes?.['isOpen'].currentValue) {
-      setTimeout(() =>  (this.returnElement? this.returnElement : this.previouslyFocusedElement)?.focus({ preventScroll: true }));
+      const returnElement = this.targetReturnElement? this.targetReturnElement : this.previouslyFocusedElement;
+
+      setTimeout(() => returnElement?.focus({ preventScroll: true }));
       this.keydownEvent = () => {};
     }
   }

@@ -6,6 +6,8 @@ import { CommentSectionComponent } from './components/comment-section/comment-se
 import { CommentHookComponent } from './components/comment-hook/comment-hook.component';
 import { UserProfileServiceService } from './services/user-profile-service.service';
 import { CommentSectionOrderPipe } from './pipes/comment-section-order.pipe';
+import { CommentElementDirective } from './directives/comment-element.directive';
+import { CommentElementType } from './services/comment-element.service';
 
 @Component({
   selector: 'app-user-profile-page',
@@ -14,7 +16,8 @@ import { CommentSectionOrderPipe } from './pipes/comment-section-order.pipe';
     DrawerComponent,
     CommentSectionComponent,
     CommentHookComponent,
-    CommentSectionOrderPipe
+    CommentSectionOrderPipe,
+    CommentElementDirective
   ],
   templateUrl: './user-profile-page.component.html',
   styleUrl: './user-profile-page.component.scss'
@@ -23,6 +26,8 @@ export class UserProfilePageComponent {
 
   isReducedLayout: boolean = false;
   isMobileLayout: boolean = false;
+
+  ElementType = CommentElementType;
 
   afterTime: boolean = false;
 

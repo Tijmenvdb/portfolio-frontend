@@ -1,69 +1,94 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Comment, CommentElementType, UserProfileServiceService } from '../../services/user-profile-service.service';
+import { CommentElementDirective } from '../../directives/comment-element.directive';
+import { CommentElementService, CommentElementType as ElementType } from '../../services/comment-element.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-comment-card',
-  imports: [CommonModule],
+  imports: [CommonModule, CommentElementDirective, FormsModule],
   templateUrl: './comment-card.component.html',
   styleUrl: './comment-card.component.scss'
 })
-export class CommentCardComponent implements OnInit, AfterViewInit {
+export class CommentCardComponent {
+
+  @HostListener('focusin', ['$event'])
+  focus: Function = this.focusHandler;
+
+  @ViewChild('commentCard') commentCard!: ElementRef<HTMLElement>;
+
+  @ViewChild('replyInput') replyInput!: ElementRef<HTMLElement>;
+
+  @ViewChild('replyButton') replyButton!: ElementRef<HTMLElement>;
+
   @Input()
   sectionId!: string;
 
   @Input()
-  comment?: Comment;
+  comment!: Comment;
+
+  message: string = '';
 
   @Output()
-  create: EventEmitter<any> = new EventEmitter();
+  send: EventEmitter<any> = new EventEmitter();
 
   @Output()
-  cancelCreate: EventEmitter<void> = new EventEmitter();
+  cancel: EventEmitter<void> = new EventEmitter();
 
-  @Output()
-  reply: EventEmitter<any> = new EventEmitter();
+  ElementType = ElementType;
 
   isReplyEnabled = false;
 
-  elementId: string = '';
+  constructor(private elementService: CommentElementService, private dataService: UserProfileServiceService) { }
 
-  constructor(private service: UserProfileServiceService) {
-
-  }
-
-  ngOnInit(): void {
-    this.elementId = (this.comment? this.comment.commentId : this.sectionId) + CommentElementType.Comment;
-  }
-
-  ngAfterViewInit(): void {
-    const commentContainer = document.getElementById(this.elementId);
-    commentContainer?.addEventListener('focusin', () => {
-      console.log("Focused In")
-      this.service.focusComment(this.sectionId, this.comment? this.comment?.commentId : undefined);
-    });
-
-    commentContainer?.addEventListener('focusout', () => {
-      console.log("Focused Out")
-      if (!commentContainer.contains(document.activeElement)) {
-        this.service.removeFocus();
-      }
-    });
-  }
-
-  onClick() {
-    this.service.focusComment(this.sectionId, this.comment? this.comment?.commentId : undefined);
+  focusHandler() {
+    this.elementService.focus(this.sectionId, this.comment.commentId);
   }
 
   onReply() {
     this.isReplyEnabled = true;
-    setTimeout(() => this.service.tabIntoComment());
+    setTimeout(() => this.replyInput.nativeElement.focus({preventScroll: true}), 1);
   }
 
   onCancelReply() {
     this.isReplyEnabled = false;
-    setTimeout(() => this.service.tabIntoComment());
+    
+    // Make a generic focus first function
+    setTimeout(() => this.replyButton.nativeElement.focus({preventScroll: true}), 1);
   }
 
   // Date to relative time function
+
+  
+  onSend() {
+    if(!this.message) {
+      return;
+    }
+
+    this.comment.message = this.message;
+    this.dataService.sendComment(this.comment).subscribe((comment) => {
+      this.message = '';
+      this.comment = comment;
+      this.dataService.updateSection(this.sectionId);
+      this.elementService.deregisterElement(ElementType.Comment, this.sectionId);
+      this.elementService.registerElement(ElementType.Comment, this.commentCard.nativeElement, comment.commentId);
+    });
+  }
+
+  onSendReply() {
+    if(!this.message) {
+      return;
+    }
+
+    var comment = this.dataService.getNewComment(this.sectionId);
+    comment.message = this.message;
+
+    this.dataService.sendComment(comment).subscribe((comment) => {
+      this.message = '';
+      this.isReplyEnabled = false;
+      this.comment.replies.unshift(comment);
+      this.dataService.updateSection(this.sectionId);
+    });
+  }
 }

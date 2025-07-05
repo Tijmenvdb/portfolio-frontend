@@ -1,6 +1,6 @@
 
-<div [id]="elementId" class="comment-card" tabIndex="-1" (click)="onClick()">
-    <ng-container *ngIf="!!comment; else commentData">
+<div #commentCard [commentElement]="ElementType.Comment" [elementId]="comment.commentId" class="comment-card" tabIndex="-1">
+    <ng-container *ngIf="!comment.isNew; else newComment">
         <div class="comment">
             <div class="flex-container">
                 <span class="secondary-text font-weight-semibold">{{comment.username}}</span>
@@ -8,7 +8,7 @@
             </div>
             <p>{{comment.message}}</p>
             <div class="flex-container">
-                <button *ngIf="!isReplyEnabled" class="secondary-button inline-icon" (click)="onReply()">
+                <button #replyButton *ngIf="!isReplyEnabled" class="secondary-button inline-icon" (click)="onReply()">
                     <span class="material-symbols-outlined">
                         reply
                     </span>
@@ -19,12 +19,12 @@
             </div>
         </div>
         <div class="comment left-padding" *ngIf="isReplyEnabled">
-            <input type="text" placeholder="Reply to comment..." class="text-input" aria-label="Reply">
+            <input #replyInput type="text" [(ngModel)]="message" placeholder="Reply to comment..." class="text-input" aria-label="Reply" (keydown.enter)="onSendReply()">
             <div class="flex-container flex-end">
                 <button class="secondary-button" (click)="onCancelReply()">
                     Cancel
                 </button>
-                <button class="secondary-button">
+                <button class="secondary-button" (click)="onSendReply()">
                     Reply
                 </button>
             </div>
@@ -37,14 +37,14 @@
             <p>{{reply.message}}</p>
         </div>
     </ng-container>
-    <ng-template #commentData>
+    <ng-template #newComment>
         <div class="comment">
-            <input type="text" placeholder="Add a comment..." class="text-input" aria-label="Comment">
+            <input type="text" [(ngModel)]="message" placeholder="Add a comment..." class="text-input" aria-label="Comment" (keydown.enter)="onSend()">
             <div class="flex-container flex-end">
-                <button class="secondary-button" (click)="cancelCreate.emit()">
+                <button class="secondary-button" (click)="cancel.emit()">
                     Cancel
                 </button>
-                <button class="secondary-button">
+                <button class="secondary-button" (click)="onSend()">
                     Send
                 </button>
             </div>

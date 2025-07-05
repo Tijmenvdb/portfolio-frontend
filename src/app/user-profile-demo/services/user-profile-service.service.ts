@@ -1,36 +1,40 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, debounceTime, filter, Subject } from 'rxjs';
+import { BehaviorSubject, debounceTime, filter, Observable, of, Subject } from 'rxjs';
 
 export interface CommentSection {
   title: string,
   order: number,
-  isAddComment: boolean,
-  focusedComment: Comment | null,
+  isAddComment: boolean, //
+  focusedComment: Comment | null, // focused
   comments: Comment[]
 }
 
 export interface Comment {
-  commentId: string,
+  // backend
+  commentId: string, // id
   username: string,
   message: string,
-  date: string,
+  date?: string,
   replies: Comment[]
+
+  // frontend
+  isNew?: boolean,
 }
 
 export enum CommentElementType {
-  Drawer = "comment-drawer",
-  Header = "comment-drawer-header",
-  Section = "-section",
-  Comment = "-comment",
-  Hook = "-hook",
-  HookContainer = "-container",
-  MainContainer = "hook-container"
+  Drawer = "comment-drawer", // comment drawer
+  Header = "comment-drawer-header", // comment drawer header
+  Section = "-section", // comment section container
+  Comment = "-comment", // comment element itself
+  Hook = "-hook", // hook element itself
+  HookContainer = "-container", // container holding the hook TODO REMOVE
+  MainContainer = "hook-container" // scrollable-main-container
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserProfileServiceService { // CommentService
+export class UserProfileServiceService { // Comment Data Service
   isDrawerOpen = false;
 
   commentSections: Map<string, BehaviorSubject<CommentSection>> = new Map();
@@ -66,7 +70,6 @@ export class UserProfileServiceService { // CommentService
   }
 
   destroyHook(sectionId: string) {
-
     const commentSection$ = this.commentSections.get(sectionId);
     commentSection$?.complete();
     this.commentSections.delete(sectionId);
@@ -184,139 +187,67 @@ export class UserProfileServiceService { // CommentService
       }
     });
 
-    console.log("Loading Hooks: ", Array.from(this.commentSections.entries()))
+    this.triggerSectionUpdate();
   }
 
-  isFocused: boolean = false;
-  focusedHook?: HTMLElement | null;
-  focusedComment?: HTMLElement | null;
-  focusOn?: HTMLElement | null;
-  focusedListener?: any;
-  returnHook?: HTMLElement | null;
-  ignoreNext: boolean = false;
+  getNewComment(sectionId: string): Comment {
+    return {
+      commentId: sectionId,
+      username: 'Anonymous',
+      message: '',
+      replies: [],
+      isNew: true
+    }
+  }
 
-  removeFocus() {
-    /*if(!this.isFocused) {
+  addComment(sectionId: string) {
+    const section$ = this.commentSections.get(sectionId)
+    const section = section$?.value;
+    if(!section || section.comments[0]?.isNew) {
       return;
-    } */
-    console.log("Forcing Focus Removal");
-
-    // this.isFocused = false;
-    this.focusedHook?.classList.remove('focus');
-    this.focusedComment?.classList.remove('focus');
-    // document.removeEventListener('click', this.focusedListener);
-    // console.log("Forcing Focus Removal");
-  }
-
-  switchFocus(sectionId: string, commentId?: string) {
-    this.ignoreNext = true;
-    this.focusedHook?.classList.remove('focus');
-    this.focusedComment?.classList.remove('focus');
-    
-    this.focusedHook = document.getElementById(sectionId + CommentElementType.Hook);
-    this.focusedComment = document.getElementById((commentId ?? sectionId) + CommentElementType.Comment);
-
-    this.focusedHook?.classList.add('focus');
-    this.focusedComment?.classList.add('focus');
-  }
-
-  createFocus(sectionId: string, commentId?: string) {
-    this.isFocused = true;
-    this.focusedHook = document.getElementById(sectionId + CommentElementType.Hook);
-    this.focusedComment = document.getElementById((commentId ?? sectionId) + CommentElementType.Comment);
-
-    this.focusedHook?.classList.add('focus');
-    this.focusedComment?.classList.add('focus');
-
-    this.focusedListener = (event: MouseEvent) => {
-      if(this.ignoreNext) {
-        this.ignoreNext = false;
-      } else if ((!this.focusedHook && !this.focusedComment) || (!this.focusedHook?.contains(event.target as Node) && !this.focusedComment?.contains(event.target as Node))) {
-
-        console.log("Removing Focus");
-        this.isFocused = false;
-        this.focusedHook?.classList.remove('focus');
-        this.focusedComment?.classList.remove('focus');
-        
-        document.removeEventListener('click', this.focusedListener);
-      }
     }
 
-    setTimeout(() => document.addEventListener('click', this.focusedListener));
+    section.comments.unshift(this.getNewComment(sectionId));
+
+    section$.next(section);
+
+    this.triggerSectionUpdate();
   }
 
-  focusCommentOld(sectionId: string, commentId?: string) {
-    if(this.isFocused) {
-      this.switchFocus(sectionId, commentId);
-    } else {
-      this.createFocus(sectionId, commentId);
+  updateSection(sectionId: string) {
+    const section$ = this.commentSections.get(sectionId);
+    section$?.next(section$.value);
+  }
+
+  cancelComment(sectionId: string) {
+    console.log("cancel")
+    const section$ = this.commentSections.get(sectionId)
+    const section = section$?.value;
+    if(!section) {
+      return;
     }
-  }
 
-  focusComment(sectionId: string, commentId?: string) {
-    this.focusedHook?.classList.remove('focus');
-    this.focusedComment?.classList.remove('focus');
-    
-    this.focusedHook = document.getElementById(sectionId + CommentElementType.Hook);
-    this.focusedComment = document.getElementById((commentId ?? sectionId) + CommentElementType.Comment);
+    section.comments.shift();
 
-    this.focusedHook?.classList.add('focus');
-    this.focusedComment?.classList.add('focus');
-  }
+    section$.next(section);
 
-  tabIntoComment() {
-    const button = this.focusedComment?.getElementsByTagName('button')?.[0];
-    const input = this.focusedComment?.getElementsByTagName('input')?.[0];
-    this.focusOn = input ?? button;
-    this.focusOn?.focus({preventScroll: true});
-  }
-
-  tabIntoHook() {
-    this.focusedHook?.focus({preventScroll: true});
-  }
-
-  scrollToSection(sectionId: string) {
-    const sectionEle = document.getElementById(sectionId + CommentElementType.Section);
-    const drawerEle = document.getElementById(CommentElementType.Drawer);
-    const headerEle = document.getElementById(CommentElementType.Header);
-
-    const style = getComputedStyle(headerEle as Element);
-    const marginTop = parseFloat(style.marginTop);
-    const marginBottom = parseFloat(style.marginBottom);
-
-    const headerHeight = (headerEle?.offsetHeight ?? 0) + marginTop + marginBottom;
-
-    drawerEle?.scrollTo(
-      {
-        top: sectionEle? sectionEle.offsetTop - headerHeight : 0
-      }
-    )
-
-  }
-
-  scrollToHook(sectionId: string) {
-    const hookEle = document.getElementById(sectionId + CommentElementType.HookContainer);
-    const mainEle = document.getElementById(CommentElementType.MainContainer);
-    const headerEle = document.getElementById(CommentElementType.Header);
-
-    const style = getComputedStyle(headerEle as Element);
-    const marginTop = parseFloat(style.marginTop);
-    const marginBottom = parseFloat(style.marginBottom);
-
-    const headerHeight = (headerEle?.offsetHeight ?? 0) + marginTop + marginBottom;
-
-    mainEle?.scrollTo(
-      {
-        top: hookEle? hookEle.offsetTop - headerHeight : 0
-      }
-    )
+    this.triggerSectionUpdate();
   }
 
   triggerSectionUpdate() {
     this.commentSections = new Map(this.commentSections);
   }
 
-  saveComment(sectionId: string, parentId: string | null) {
+  commentIndex = 4;
+  sendComment(comment: Comment): Observable<Comment> {
+
     // save comment and returns commentId generated for it
+    // then map to comment and return.
+
+    comment.commentId = `${this.commentIndex++}`;
+    comment.isNew = false;
+    comment.date = '1 minute ago';
+
+    return of(comment);
   }
 }
