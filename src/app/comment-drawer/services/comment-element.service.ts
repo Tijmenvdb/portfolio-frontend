@@ -1,18 +1,11 @@
 import { ElementRef, Injectable } from '@angular/core';
-
-export enum CommentElementType {
-  Main,
-  Drawer,
-  Header,
-  Hook,
-  Section,
-  Comment
-}
+import { CommentElementType } from '../models/comment.models';
+import { DomUtils } from '../../shared/utils/dom-utils';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CommentElementService { // Comment Element Service
+export class CommentElementService {
 
   private main?: HTMLElement;
   private drawer?: HTMLElement;
@@ -25,36 +18,37 @@ export class CommentElementService { // Comment Element Service
   private activeHookId?: string;
   private activeCommentId?: string;
 
+  public returnHook?: HTMLElement;
+
   constructor() { }
 
-  // registerEl
-  registerElement(elementType: CommentElementType, element: HTMLElement, id?: string) {
-    switch(elementType) {
-      case CommentElementType.Main: {
+  registerElement(type: CommentElementType, element: HTMLElement, id?: string): void {
+    switch(type) {
+      case 'main': {
         this.main = element;
         break;
       }
-      case CommentElementType.Drawer: {
+      case 'drawer': {
         this.drawer = element;
         break;
       }
-      case CommentElementType.Header: {
+      case 'header': {
         this.header = element;
         break;
       }
-      case CommentElementType.Hook: {
+      case 'hook': {
         if(id) {
           this.hooks.set(id, element);
         }
         break;
       }
-      case CommentElementType.Section: {
+      case 'section': {
         if(id) {
           this.sections.set(id, element);
         }
         break;
       }
-      case CommentElementType.Comment: {
+      case 'comment': {
         if(id) {
           this.comments.set(id, element);
         }
@@ -63,30 +57,28 @@ export class CommentElementService { // Comment Element Service
     }
   }
 
-  // deregisterEl
-  deregisterElement(elementType: CommentElementType, id?: string) {
+  deregisterElement(type: CommentElementType, id?: string) {
     if(!id) {
       return;
     }
 
-    switch(elementType) {
-      case CommentElementType.Hook: {
+    switch(type) {
+      case 'hook': {
         this.hooks.delete(id);
         break;
       }
-      case CommentElementType.Section: {
+      case 'section': {
         this.sections.delete(id);
         break;
       }
-      case CommentElementType.Comment: {
+      case 'comment': {
         this.comments.delete(id);
         break;
       }
     }
   }
 
-  // focus private
-  activeElement(sectionId: string, commentId: string) {
+  private activeElement(sectionId: string, commentId: string): void {
     this.activeHookId = sectionId;
     this.activeCommentId = commentId;
 
@@ -94,8 +86,7 @@ export class CommentElementService { // Comment Element Service
     this.comments.get(commentId)?.classList.add('focus');
   }
 
-  // unfocus private
-  deactiveElement() {
+  private deactiveElement(): void {
     if(!this.activeCommentId || !this.activeHookId) {
       return;
     }
@@ -106,23 +97,7 @@ export class CommentElementService { // Comment Element Service
     this.activeCommentId = undefined;
   }
 
-  // static getFirstFocusableEl(container)
-  // focusFirstElement(container)
-  getFocusableElements(container?: HTMLElement): NodeListOf<HTMLElement> | undefined {
-    const focusableSelectors = `
-      a[href],
-      button:not([disabled]),
-      textarea:not([disabled]),
-      input:not([disabled]),
-      select:not([disabled]),
-      [tabindex]:not([tabindex="-1"])
-    `;
-
-    return container?.querySelectorAll<HTMLElement>(focusableSelectors);
-  }
-
-  // 
-  focus(sectionId: string, commentId: string) {
+  focus(sectionId: string, commentId: string): void {
     const isListening = !!this.activeCommentId;
 
     if(this.activeCommentId == commentId) {
@@ -155,28 +130,27 @@ export class CommentElementService { // Comment Element Service
     document.addEventListener('click', handler);
   }
 
-  jumpToHook(sectionId: string, commentId: string) {
+  focusHook(sectionId: string, commentId: string) {
     this.hooks.get(sectionId)?.focus({preventScroll: true});
     this.focus(sectionId, commentId);
     this.scrollToHook(sectionId);
     this.scrollToSection(sectionId);
+    this.returnHook = this.hooks.get(sectionId);
   }
 
-  jumpToSection(sectionId: string, commentId: string) {
-    this.getFocusableElements(this.comments.get(commentId))?.[0]?.focus({preventScroll: true});
+  focusSection(sectionId: string, commentId: string) {
+    DomUtils.getFirstFocusableElement(this.comments.get(commentId))?.focus({preventScroll: true});
     this.scrollToSection(sectionId);
+    this.returnHook = this.hooks.get(sectionId);
   }
 
-  jumpToComment(sectionId: string, commentId: string) {
-    this.getFocusableElements(this.comments.get(commentId))?.[0]?.focus({preventScroll: true});
+  focusComment(sectionId: string, commentId: string) {
+    DomUtils.getFirstFocusableElement(this.comments.get(commentId))?.focus({preventScroll: true});
     this.scrollToComment(commentId);
+    this.returnHook = this.hooks.get(sectionId);
   }
 
-  removeFocus() {
-    this.deactiveElement();
-  }
-
-  scrollToElement(element?: HTMLElement, container?: HTMLElement, offsetElement?: HTMLElement) {
+  private scrollToElement(element?: HTMLElement, container?: HTMLElement, offsetElement?: HTMLElement) {
     const style = getComputedStyle(offsetElement as Element);
     const marginTop = parseFloat(style.marginTop);
     const marginBottom = parseFloat(style.marginBottom);
@@ -192,6 +166,7 @@ export class CommentElementService { // Comment Element Service
 
   scrollToHook(sectionId: string) {
     const hook = this.hooks.get(sectionId);
+
     this.scrollToElement(hook, this.main, this.header);
   }
 

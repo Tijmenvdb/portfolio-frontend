@@ -1,5 +1,6 @@
 import { Directive, ElementRef, Input } from '@angular/core';
-import { CommentElementService, CommentElementType } from '../services/comment-element.service';
+import { CommentElementService } from '../services/comment-element.service';
+import { CommentElementType } from '../models/comment.models';
 
 @Directive({
   selector: '[commentElement]'

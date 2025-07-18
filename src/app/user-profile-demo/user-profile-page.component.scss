@@ -4,97 +4,17 @@
 
 :host {
     flex: 1 1 auto;
-    overflow: auto;
-    scroll-behavior: smooth;
-}
-
-.nav-bar {
-    box-sizing: border-box;
-    display: flex;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-
-    padding: .25rem 1.5rem;
-    gap: .5rem;
-    align-items: center;
-
-    background-color: $black-color-500;
-    box-shadow: 4px 4px 4px rgba($black-color-500, 20%);
-    color: $white-color-500;
-
-    a {
-        padding: .5rem;
-        border-radius: 100rem;
-        transition: $color-transition,
-            $scale-transition,
-            $outline-transition;
-
-        @include scale-click();
-        @include color-click($primary-color-500, $primary-color-600);
-        @include outline-focus($white-color-500);
-    }
-
-    .icon-link {
-        width: 2rem;
-        height: 2rem;
-    }
-}
-
-.main-container {
-    overflow: auto;
-    scroll-behavior: smooth;
 }
 
 .user-profile-container {
     transition: margin .1s ease, padding .1s ease;
 
     @include card(1rem, 2rem);
+    margin: 2rem;
+
     @include respond-lg {
         @include card(1rem, 1rem);
-    }
-
-    margin: 2rem;
-    @include respond-lg {
         margin: 1rem .5rem;
-    }
-
-    flex-grow: 1;
-}
-
-.comments-drawer-var {
-    --drawer-size: 25rem;
-    --shadow: none;
-    --z-index-drawer: 100;
-    --overlay-color: #{$white-color-600};
-    --overlay-opacity: .5;
-}
-
-.comments-drawer {
-    flex-grow: 1;
-    overflow: auto;
-    scroll-behavior: smooth;
-    padding-top: 5rem;
-
-    .drawer-header {
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        right: 0;
-
-        transition: margin .1s ease;
-        margin: 1rem .5rem;
-        @include card(.5rem, 1rem);
-        box-shadow: 0.25rem 0.25rem 0.5rem 0.25rem rgba($black-color-500, 20%);
-    }
-
-    // TODO fix is last-child is hidden
-    app-comment-section:last-child {
-        display: block;
-
-        // TODO fix min-height for safari
-        min-height: calc(100% - 1rem);
     }
 }
 
@@ -106,9 +26,13 @@
 
 .box {
     flex-grow: 1;
-    min-width: 400px;
     background-color: antiquewhite;
     margin: 1rem;
     outline: solid 1rem darkorange;
     min-height: 100vh;
+    min-width: max(400px, 40%);
+
+    @include respond-lg {
+        min-width: 80%;
+    }
 }

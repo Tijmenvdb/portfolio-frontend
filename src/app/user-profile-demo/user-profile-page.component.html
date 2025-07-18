@@ -1,10 +1,5 @@
-<app-drawer class="comments-drawer-var"
-    [behavior]="isReducedLayout? isMobileLayout? 'fullscreen' : 'overlay' : 'push'"
-    [position]="'right'"
-    [isOpen]="service.isDrawerOpen"
-    [ariaLabelledby]="'comment-drawer-label'"
-    (toggle)="service.isDrawerOpen = $event">
-    <main main-content [commentElement]="ElementType.Main" id="hook-container" class="main-container" aria-labelledby="main-title">
+<app-comment-drawer>
+    <main aria-labelledby="main-title">
         <div class="user-profile-container">
             <header class="flex-container">
                 <h1 id="main-title">User Profile</h1>
@@ -53,17 +48,4 @@
             </div>
         </div>
     </main>
-    <div drawer-content [commentElement]="ElementType.Drawer" id="comment-drawer" class="comments-drawer" tabIndex="-1">
-        <h1 [commentElement]="ElementType.Header" id="comment-drawer-header" class="drawer-header flex-container flex-space-between">
-            <span id="comment-drawer-label">
-                Comments
-            </span>
-            <button class="material-symbols-outlined tertiary-button" aria-label="Close Drawer" (click)="service.isDrawerOpen = false">
-                close
-            </button>
-        </h1>
-        <app-comment-section class='comment-section' *ngFor="let entry of service.commentSections | commentSectionOrder"
-            [sectionId]="entry.sectionId" [commentSection$]="entry.commentSection$">
-        </app-comment-section>
-    </div>
-</app-drawer>
+</app-comment-drawer>
